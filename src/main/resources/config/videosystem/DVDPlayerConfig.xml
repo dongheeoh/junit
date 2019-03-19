@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 01, 간단한 bean 설정 -->
+	<!-- <bean class="com.douzone.springcontainer.videosystem.Avengers" /> -->
+
+	<!-- 02, 설정된 bean에 ID 부여하기 -->
+	<bean id="avengers" class="com.douzone.springcontainer.videosystem.Avengers" />
+
+	<!-- 03, 생성자를 통한 bean 주입01 -->
+	<!-- <bean id="dvdplayer" class="com.douzone.springcontainer.videosystem.DVDPlayer" 
+		> <constructor-arg ref="digitalVideoDisc"/> </bean> -->
+
+	<!-- 04, 생성자를 통한 bean 주입02 c-namespace 사용 argument name 사용 (spring3.0부터) -->
+	<!-- <bean id="dvdplayer" class="com.douzone.springcontainer.videosystem.DVDPlayer" 
+		c:dvd-ref="digitalVideoDisc" /> -->
+
+
+	<!-- 05, 생성자를 통한 bean 주입03 c-namespace 의 argument index 사용, c-namespace , 
+		p-namespace -->
+	<!-- <bean id="dvdplayer" class="com.douzone.springcontainer.videosystem.DVDPlayer" 
+		c:_0-ref="digitalVideoDisc" /> -->
+
+
+	<!-- 06, 생성자를 통한 bean 주입04 c-namespace 사용 argument가 하나만 사용하는 경우 -->
+	<!-- 
+	<bean id="dvdplayer"
+		class="com.douzone.springcontainer.videosystem.DVDPlayer"
+		c:_-ref="digitalVideoDisc" />
+ 	-->
+ 	
+	<!-- 07, 생성자를 통한 bean 주입05 literal 값을 생성자에 주입 01 -->
+	<!-- <bean id="digitalVideoDisc"
+		class="com.douzone.springcontainer.videosystem.BlankDisc">
+		<constructor-arg name="title"
+			value="Avengers infinite war" />
+		<constructor-arg name="studio" value="MARVEL" />
+	</bean> -->
+
+	<!-- 08, 생성자를 통한 bean 주입06 literal 값을 생성자에 주입 02 -->
+	<!-- <bean id="digitalVideoDisc" class="com.douzone.springcontainer.videosystem.BlankDisc" 
+		c:title="Avengers infinite war" c:studio="MARVEL" /> -->
+
+	<!-- 09, 생성자를 통한 bean 주입07 literal 값을 생성자에 주입 03 -->
+	<!--  <bean id="digitalVideoDisc" class="com.douzone.springcontainer.videosystem.BlankDisc" 
+		c:_0="Avengers infinite war" c:_1="MARVEL" />  -->
+		
+		
+	<!-- 10, 생성자를 통한 bean 주입 08 : 와이어링 콜렉션01-->
+	 <!-- 
+	 <bean id="digitalVideoDisc"
+		class="com.douzone.springcontainer.videosystem.BlankDisc">
+		<constructor-arg  value="Avengers infinite war" />
+		<constructor-arg  value="MARVEL" />
+		<constructor-arg ><null/></constructor-arg>
+	</bean>
+	 -->
+	
+	<!-- 11, 생성자를 통한 bean 주입 09 : 와이어링 콜렉션01-->
+	 <bean id="digitalVideoDisc"
+		class="com.douzone.springcontainer.videosystem.BlankDisc">
+		<constructor-arg  value="Avengers infinity war" />
+		<constructor-arg  value="MARVEL" />
+			<constructor-arg >
+				<list>
+					<value>Robert Downey Jr</value>
+					<value>Chris Evans</value>
+					<value>Chris Hemsworth</value>
+				</list>
+			</constructor-arg>
+	</bean>
+
+	
+	<!-- 12, 생성자를 통한 bean 주입 10 : 와이어링 콜렉션02-->
+	 <bean id="DVDPack"
+		class="com.douzone.springcontainer.videosystem.DVDPack">
+		<constructor-arg  value="Avengers Triplepack" />
+			<constructor-arg >
+				<list>
+					<ref bean="avengers"/>
+					<ref bean="digitalVideoDisc"/>
+				</list>
+			</constructor-arg>
+	</bean>
+	
+	<!-- 13, 프로퍼티를 통한  bean 주입 -->
+	<bean id="dvdplayer" class="com.douzone.springcontainer.videosystem.DVDPlayer">
+		<property name="digitalVideoDisc" ref="digitalVideoDisc" />
+	</bean>
+</beans>
